@@ -109,6 +109,8 @@ class BookInfoAPIView(APIView):
 
 class ReviewListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = ReviewSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    pagination_class = LimitOffsetPagination
 
     def get_queryset(self):
         book_id = self.kwargs["book_id"]
@@ -124,6 +126,8 @@ class ReviewListCreateAPIView(generics.ListCreateAPIView):
 class ReviewDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ReviewSerializer
     lookup_field = "id"
+    permission_classes = [permissions.IsAuthenticated]
+    pagination_class = LimitOffsetPagination
 
     def get_queryset(self):
         book_id = self.kwargs["book_id"]
@@ -133,6 +137,8 @@ class ReviewDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 class CommentListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = CommentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    pagination_class = LimitOffsetPagination
 
     def get_queryset(self):
         review_id = self.kwargs["review_id"]
@@ -155,8 +161,29 @@ class CommentDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
         return review.comments.all()
 
 
-class UserListView(generics.ListAPIView):
+class UserListView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAdminUser]
     pagination_class = LimitOffsetPagination
+
+    def get_queryset(self):
+        return super().get_queryset().filter(is_staff=False)
+
+
+class UserCreateView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAdminUser]
+
+    def perform_create(self, serializer):
+        serializer.save(is_staff=False)
+
+
+class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAdminUser]
+    lookup_field = "id"
+
+

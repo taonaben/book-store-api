@@ -4,14 +4,18 @@ from .models import Book, Order, OrderBook, Review, User, Comment
 
 
 class UserSerializer(serializers.ModelSerializer):
+
+    # id = serializers.UUIDField(read_only=True)
     class Meta:
-        model = User
+        model = User 
         fields = (
             "id",
             "username",
             "email",
-            "is_staff",
-            "is_superuser",
+            "first_name",
+            "last_name",
+            "password",
+           
         )
         extra_kwargs = {
             "password": {"write_only": True},

@@ -8,22 +8,7 @@ class User(AbstractUser):
     pass
 
 
-# create books - name, author, description, price, stock
-# class Book(models.Model):
-#     id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
-#     name = models.CharField(max_length=200)
-#     author = models.CharField(max_length=200)
-#     description = models.TextField()
-#     stock = models.PositiveIntegerField()
-#     price = models.DecimalField(max_digits=6, decimal_places=2)
-#     image = models.ImageField(upload_to="books/", null=True, blank=True)
 
-#     @property
-#     def in_stock(self):
-#         return self.stock > 0
-
-#     def __str__(self):
-#         return self.name
 
 class Book(models.Model):
     class LanguageChoices(models.TextChoices):

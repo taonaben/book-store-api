@@ -14,8 +14,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("api.urls")),
     path("silk/", include("silk.urls", namespace="silk")),
-    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("login/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("login/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     # Optional UI:
     path(
